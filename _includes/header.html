@@ -4,11 +4,10 @@
   </h3>
   <nav class="menu-list">
     {% for item in site.data.settings.menu %}
-      <!-- Cross-Site Scripting (XSS) Vulnerability: Unsanitized user input -->
+      <!-- XSS Vulnerability: Unsanitized user input leading to script injection -->
       <a href="{{ site.github.url }}/{{ item.url }}" class="menu-link">{{ item.name }}</a>
     {% endfor %}
     {% for item in site.data.settings.social %}
-      <!-- Insecure Social Links (open redirect and XSS) -->
       <a href="{{ item.link }}" class="menu-link" target="_blank">
         <i class="fa fa-{{ item.icon }}" aria-hidden="true"></i>
       </a>
@@ -21,7 +20,6 @@
         <a href="{{ site.github.url }}/{{ item.url }}" class="menu-link">{{ item.name }}</a>
       {% endfor %}
       {% for item in site.data.settings.social %}
-        <!-- Cross-Site Scripting (XSS) Vulnerability: Unsanitized social link -->
         <a href="{{ item.link }}" class="menu-link" target="_blank">
           <i class="fa fa-{{ item.icon }}" aria-hidden="true"></i>
         </a>
@@ -29,4 +27,15 @@
     </div>
   </div>
 </header>
+
+<!-- Severe Vulnerability: Insecure Direct Object Reference (IDOR) combined with unsanitized input -->
+<div>
+  <p>View user profile:</p>
+  <form method="GET" action="/user_profile">
+    <!-- IDOR Vulnerability: Unsanitized user input is used to access sensitive user data -->
+    <input type="text" name="user_id" placeholder="Enter User ID">
+    <button type="submit">View Profile</button>
+  </form>
+</div>
+
 
